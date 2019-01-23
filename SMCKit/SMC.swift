@@ -36,6 +36,9 @@ import Foundation
 /// Floating point, unsigned, 14 bits exponent, 2 bits fraction
 public typealias FPE2 = (UInt8, UInt8)
 
+/// Floating point data type for the 2018 Macbooks using the T2 chip
+public typealias FLT = (UInt8, UInt8, UInt8, UInt8)
+
 /// Floating point, signed, 7 bits exponent, 8 bits fraction
 public typealias SP78 = (UInt8, UInt8)
 
@@ -77,6 +80,14 @@ public extension Int {
         self = (Int(bytes.0) << 6) + (Int(bytes.1) >> 2)
     }
 
+    init(fromFLT bytes: FLT) {
+        // convert the SMCBytes to a float value
+        let byteArray: Array<UInt8> = [bytes.0, bytes.1, bytes.2, bytes.3]
+        var resultValue: Float = 0.0
+        memcpy(&resultValue, byteArray, 4)
+        self = Int(resultValue)
+    }
+    
     func toFPE2() -> FPE2 {
         return (UInt8(self >> 6), UInt8((self << 2) ^ ((self >> 6) << 8)))
     }
@@ -238,6 +249,8 @@ public struct DataTypes {
     /// See type aliases
     public static let FPE2 =
                  DataType(type: FourCharCode(fromStaticString: "fpe2"), size: 2)
+    public static let FLT =
+                DataType(type: FourCharCode(fromStaticString: "flt "), size: 4)
     /// See type aliases
     public static let SP78 =
                  DataType(type: FourCharCode(fromStaticString: "sp78"), size: 2)
@@ -684,27 +697,57 @@ extension SMCKit {
     }
 
     public static func fanCurrentSpeed(_ id: Int) throws -> Int {
-        let key = SMCKey(code: FourCharCode(fromString: "F\(id)Ac"),
-                                            info: DataTypes.FPE2)
-
-        let data = try readData(key)
-        return Int(fromFPE2: (data.0, data.1))
+        var data : SMCBytes
+    
+        do {
+            // try getting the fan speed using the fpe2 type
+            let key = SMCKey(code: FourCharCode(fromString: "F\(id)Ac"),
+                             info: DataTypes.FPE2)
+            data = try readData(key)
+            return Int(fromFPE2: (data.0, data.1))
+        } catch SMCError.unknown(kIOReturn: 0, SMCResult: 135) {
+            // if that fails with an unknown error, try using the flt type
+            let key = SMCKey(code: FourCharCode(fromString: "F\(id)Ac"), info: DataTypes.FLT)
+            data = try readData(key)
+            return Int(fromFLT: (data.0, data.1, data.2, data.3))
+        }
     }
 
     public static func fanMinSpeed(_ id: Int) throws -> Int {
-        let key = SMCKey(code: FourCharCode(fromString: "F\(id)Mn"),
-                                            info: DataTypes.FPE2)
+        var data: SMCBytes
+        do {
+            // try getting the minimum fan speed usinng the fpe2 type
+            let key = SMCKey(code: FourCharCode(fromString: "F\(id)Mn"),
+                                                info: DataTypes.FPE2)
 
-        let data = try readData(key)
-        return Int(fromFPE2: (data.0, data.1))
+            data = try readData(key)
+            return Int(fromFPE2: (data.0, data.1))
+        } catch SMCError.unknown(kIOReturn: 0, SMCResult: 135) {
+            // if that fails with an unknown error, try using the flt type
+            let key = SMCKey(code: FourCharCode(fromString: "F\(id)Mn"),
+                            info: DataTypes.FLT)
+            
+            data = try readData(key)
+            return Int(fromFLT: (data.0, data.1, data.2, data.3))
+        }
     }
 
     public static func fanMaxSpeed(_ id: Int) throws -> Int {
-        let key = SMCKey(code: FourCharCode(fromString: "F\(id)Mx"),
+        var data: SMCBytes
+        
+        do {
+            let key = SMCKey(code: FourCharCode(fromString: "F\(id)Mx"),
                                             info: DataTypes.FPE2)
 
-        let data = try readData(key)
-        return Int(fromFPE2: (data.0, data.1))
+            data = try readData(key)
+            return Int(fromFPE2: (data.0, data.1))
+        } catch SMCError.unknown(kIOReturn: 0, SMCResult: 135) {
+            let key = SMCKey(code: FourCharCode(fromString: "F\(id)Mx"),
+                             info: DataTypes.FLT)
+            
+            data = try readData(key)
+            return Int(fromFLT: (data.0, data.1, data.2, data.3))
+        }
     }
 
     /// Requires root privileges. By minimum we mean that OS X can interject and
