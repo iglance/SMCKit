@@ -72,7 +72,7 @@ extension Bool {
     }
 }
 
-public extension Int {
+extension Int {
     init(fromFPE2 bytes: FPE2) {
         self = (Int(bytes.0) << 6) + (Int(bytes.1) >> 2)
     }
@@ -100,7 +100,7 @@ extension Double {
 
 // Thanks to Airspeed Velocity for the great idea!
 // http://airspeedvelocity.net/2015/05/22/my-talk-at-swift-summit/
-public extension FourCharCode {
+extension FourCharCode {
     init(fromString str: String) {
         precondition(str.characters.count == 4)
 
@@ -411,8 +411,8 @@ extension SMCKit {
         let count = try keyCount()
         var keys = [SMCKey]()
 
-        for i in 0 ..< count {
-            let key = try keyInformationAtIndex(i)
+        for keyIndex in 0 ..< count {
+            let key = try keyInformationAtIndex(keyIndex)
             let info = try keyInformation(key)
             keys.append(SMCKey(code: key, info: info))
         }
@@ -634,8 +634,8 @@ extension SMCKit {
         let count = try fanCount()
         var fans = [Fan]()
 
-        for i in 0 ..< count {
-            fans.append(try SMCKit.fan(i))
+        for fanIndex in 0 ..< count {
+            fans.append(try SMCKit.fan(fanIndex))
         }
 
         return fans
@@ -767,7 +767,7 @@ extension SMCKit {
 // MARK: Miscellaneous
 //------------------------------------------------------------------------------
 
-public struct batteryInfo {
+public struct BatteryInfo {
     public let batteryCount: Int
     public let isACPresent: Bool
     public let isBatteryPowered: Bool
@@ -787,7 +787,7 @@ extension SMCKit {
         return Bool(fromByte: data.0)
     }
 
-    public static func batteryInformation() throws -> batteryInfo {
+    public static func batteryInformation() throws -> BatteryInfo {
         let batteryCountKey =
                             SMCKey(code: FourCharCode(fromStaticString: "BNum"),
                                    info: DataTypes.UInt8)
@@ -809,7 +809,7 @@ extension SMCKit {
         let isACPresent = (batteryInfoData.0 >> 1) & 1 == 1 ? true : false
         let isBatteryOk = (batteryInfoData.0 >> 6) & 1 == 1 ? true : false
 
-        return batteryInfo(batteryCount: batteryCount, isACPresent: isACPresent,
+        return BatteryInfo(batteryCount: batteryCount, isACPresent: isACPresent,
                            isBatteryPowered: isBatteryPowered,
                            isBatteryOk: isBatteryOk,
                            isCharging: isCharging)

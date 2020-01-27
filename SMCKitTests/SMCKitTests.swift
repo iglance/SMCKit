@@ -147,7 +147,7 @@ class SMCKitTests: XCTestCase {
         }
 
 
-        if DRDevice.devices().count == 0 {
+        if DRDevice.devices()?.isEmpty {
             // TODO: This means that there are no ODD that have burn capability?
             //       Should be fine, as all Apple drives should have it
             print("No ODD devices")
@@ -260,12 +260,12 @@ class SMCKitTests: XCTestCase {
             
             http://www.wolframalpha.com
             */
-            let A = batteryPowered
-            let B = ACPresent
-            let C = charging && ASPCharging
-            let D = ASPCharged
+            let battPow = batteryPowered
+            let ac = ACPresent
+            let charging = charging && ASPCharging
+            let charged = ASPCharged
 
-            XCTAssertTrue((!A || !B) && (A || B) && (B || !C) && (!C || !D))
+            XCTAssertTrue((!battPow || !ac) && (battPow || ac) && (ac || !charging) && (!charging || !charged))
         } else {
             XCTAssertFalse(batteryOk)
             XCTAssertFalse(batteryPowered)
