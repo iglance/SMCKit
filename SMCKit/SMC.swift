@@ -52,7 +52,9 @@ public typealias SMCBytes = (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
 // MARK: Standard Library Extensions
 //------------------------------------------------------------------------------
 
-extension UInt32 {
+// this extension has to be public in order to be usable when importing the framework
+// swiftlint:disable:next no_extension_access_modifier
+public extension UInt32 {
     init(fromBytes bytes: (UInt8, UInt8, UInt8, UInt8)) {
         // TODO: Broken up due to "Expression was too complex" error as of
         //       Swift 4.
@@ -66,13 +68,17 @@ extension UInt32 {
     }
 }
 
-extension Bool {
+// this extension has to be public in order to be usable when importing the framework
+// swiftlint:disable:next no_extension_access_modifier
+public extension Bool {
     init(fromByte byte: UInt8) {
         self = byte == 1 ? true : false
     }
 }
 
-extension Int {
+// this extension has to be public in order to be usable when importing the framework
+// swiftlint:disable:next no_extension_access_modifier
+public extension Int {
     init(fromFPE2 bytes: FPE2) {
         self = (Int(bytes.0) << 6) + (Int(bytes.1) >> 2)
     }
@@ -90,7 +96,9 @@ extension Int {
     }
 }
 
-extension Double {
+// this extension has to be public in order to be usable when importing the framework
+// swiftlint:disable:next no_extension_access_modifier
+public extension Double {
     init(fromSP78 bytes: SP78) {
         // FIXME: Handle second byte
         let sign = bytes.0 & 0x80 == 0 ? 1.0 : -1.0
@@ -100,9 +108,11 @@ extension Double {
 
 // Thanks to Airspeed Velocity for the great idea!
 // http://airspeedvelocity.net/2015/05/22/my-talk-at-swift-summit/
-extension FourCharCode {
+// this extension has to be public in order to be usable when importing the framework
+// swiftlint:disable:next no_extension_access_modifier
+public extension FourCharCode {
     init(fromString str: String) {
-        precondition(str.characters.count == 4)
+        precondition(str.count == 4)
 
         self = str.utf8.reduce(0) { sum, character in
             sum << 8 | UInt32(character)
@@ -297,8 +307,13 @@ public struct SMCKit {
     /// Connection to the SMC driver
     fileprivate static var connection: io_connect_t = 0
 
-    /// Open connection to the SMC driver. This must be done first before any
-    /// other calls
+    /**
+     * Open connection to the SMC driver. This must be done first before any other calls.
+     *
+     * - Throws:
+     *      - `SMCError.driverNotFound` if the SMC driver was not found
+     *      - `SMCError.failedToOpen` if opening the connection to the SMC failed
+     */
     public static func open() throws {
         let service = IOServiceGetMatchingService(kIOMasterPortDefault,
                                                   IOServiceMatching("AppleSMC"))
