@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4C982BE01A040CD500F4A639 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C982BDF1A040CD500F4A639 /* main.swift */; };
-		4C982BE41A040CE200F4A639 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE566A71A00A49600787F6B /* SMC.swift */; };
 		4CA091201F8C4FCC00623AEF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4CA0911F1F8C4FCC00623AEF /* README.md */; };
 		4CA091231F8C517E00623AEF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4CA091211F8C517E00623AEF /* LICENSE */; };
 		4CA091241F8C517E00623AEF /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 4CA091221F8C517E00623AEF /* Makefile */; };
@@ -18,9 +16,6 @@
 		4CE566971A00A48800787F6B /* SMCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CE5668B1A00A48800787F6B /* SMCKit.framework */; };
 		4CE5669E1A00A48800787F6B /* SMCKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE5669D1A00A48800787F6B /* SMCKitTests.swift */; };
 		4CE566A81A00A49600787F6B /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE566A71A00A49600787F6B /* SMC.swift */; };
-		4CE5BC241B1F85880030FA55 /* CommandLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE5BC211B1F85880030FA55 /* CommandLine.swift */; };
-		4CE5BC251B1F85880030FA55 /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE5BC221B1F85880030FA55 /* Option.swift */; };
-		4CE5BC261B1F85880030FA55 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE5BC231B1F85880030FA55 /* StringExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,15 +29,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		4C982BDB1A040CD500F4A639 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		4CDDA69B1AEC0D010037CE7B /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -55,7 +41,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4C982BDD1A040CD500F4A639 /* SMCKitTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SMCKitTool; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C982BDF1A040CD500F4A639 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		4CA0911F1F8C4FCC00623AEF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4CA091211F8C517E00623AEF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -75,13 +60,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4C982BDA1A040CD500F4A639 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4CDDA69A1AEC0D010037CE7B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -143,7 +121,6 @@
 			children = (
 				4CE5668B1A00A48800787F6B /* SMCKit.framework */,
 				4CE566961A00A48800787F6B /* SMCKitTests.xctest */,
-				4C982BDD1A040CD500F4A639 /* SMCKitTool */,
 				4CDDA69D1AEC0D010037CE7B /* powermetricsTests */,
 			);
 			name = Products;
@@ -216,23 +193,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		4C982BDC1A040CD500F4A639 /* SMCKitTool */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4C982BE31A040CD500F4A639 /* Build configuration list for PBXNativeTarget "SMCKitTool" */;
-			buildPhases = (
-				4C982BD91A040CD500F4A639 /* Sources */,
-				4C982BDA1A040CD500F4A639 /* Frameworks */,
-				4C982BDB1A040CD500F4A639 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SMCKitTool;
-			productName = SMCKitTool;
-			productReference = 4C982BDD1A040CD500F4A639 /* SMCKitTool */;
-			productType = "com.apple.product-type.tool";
-		};
 		4CDDA69C1AEC0D010037CE7B /* powermetricsTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4CDDA6A31AEC0D010037CE7B /* Build configuration list for PBXNativeTarget "powermetricsTests" */;
@@ -296,10 +256,6 @@
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = beltex;
 				TargetAttributes = {
-					4C982BDC1A040CD500F4A639 = {
-						CreatedOnToolsVersion = 6.1;
-						LastSwiftMigration = 0900;
-					};
 					4CDDA69C1AEC0D010037CE7B = {
 						CreatedOnToolsVersion = 6.3.1;
 						LastSwiftMigration = 0900;
@@ -319,6 +275,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 4CE566811A00A48800787F6B;
@@ -329,7 +286,6 @@
 				4CE5668A1A00A48800787F6B /* SMCKit */,
 				4CE566951A00A48800787F6B /* SMCKitTests */,
 				4CDDA69C1AEC0D010037CE7B /* powermetricsTests */,
-				4C982BDC1A040CD500F4A639 /* SMCKitTool */,
 			);
 		};
 /* End PBXProject section */
@@ -354,18 +310,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4C982BD91A040CD500F4A639 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4CE5BC251B1F85880030FA55 /* Option.swift in Sources */,
-				4CE5BC241B1F85880030FA55 /* CommandLine.swift in Sources */,
-				4CE5BC261B1F85880030FA55 /* StringExtensions.swift in Sources */,
-				4C982BE41A040CE200F4A639 /* SMC.swift in Sources */,
-				4C982BE01A040CD500F4A639 /* main.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4CDDA6991AEC0D010037CE7B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -403,32 +347,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		4C982BE11A040CD500F4A639 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				OTHER_SWIFT_FLAGS = "-D DEBUG";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
-			};
-			name = Debug;
-		};
-		4C982BE21A040CD500F4A639 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
 		4CDDA6A11AEC0D010037CE7B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -643,15 +561,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4C982BE31A040CD500F4A639 /* Build configuration list for PBXNativeTarget "SMCKitTool" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4C982BE11A040CD500F4A639 /* Debug */,
-				4C982BE21A040CD500F4A639 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		4CDDA6A31AEC0D010037CE7B /* Build configuration list for PBXNativeTarget "powermetricsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
