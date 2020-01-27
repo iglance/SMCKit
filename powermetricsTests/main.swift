@@ -39,7 +39,7 @@ import Foundation
 
 // powermetrics added the SMC sampler in 10.10
 let processInfo = ProcessInfo()
-let Yosemite    = OperatingSystemVersion(majorVersion: 10,
+let Yosemite = OperatingSystemVersion(majorVersion: 10,
                                            minorVersion: 0,
                                            patchVersion: 0)
 
@@ -79,8 +79,8 @@ let data = pipe.fileHandleForReading.readDataToEndOfFile()
 // Get SMC data right after powermetrics has run. This is because it first
 // prints out some general information about the machine, and then seems to
 // sleep for 1 second to "line up" its sampling window
-let smcFanCount          = try! SMCKit.fanCount()
-let smcRPM               = try! SMCKit.fanCurrentSpeed(0)
+let smcFanCount = try! SMCKit.fanCount()
+let smcRPM = try! SMCKit.fanCurrentSpeed(0)
 
 // The key used by powermetrics was determined via DTrace script below
 // https://gist.github.com/beltex/acbbeef815a7be938abf
@@ -105,7 +105,6 @@ if let output = NSString(data: data, encoding: String.Encoding.utf8.rawValue) {
             print("SMCKit fan 0 RPM:     \(smcRPM)")
             print("powermetrics fan RPM: \(powermetricsRPM)")
             assert(diff >= 0 && diff <= 5, "RPM differs by more than +/- 5")
-
         } else if line.hasPrefix("CPU die temperature:") &&
                   line.hasSuffix("C") {
             let powermetricsCPUDieTemperature =

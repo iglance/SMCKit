@@ -50,10 +50,9 @@ TODO
   works on second generation Intel Core 2 Duo chips and on.
 */
 class SMCKitTests: XCTestCase {
-
     /// List of internal ODD devices
     var internalODD = [DRDevice]()
-    
+
     // TODO: Setup once?
     override func setUp() {
         // Put setup code here. This method is called before the invocation of
@@ -75,7 +74,7 @@ class SMCKitTests: XCTestCase {
 
         super.tearDown()
     }
-    
+
 //    func testOpenConnectionTwice() {
 //        XCTAssertNotEqual(smc.open(), kIOReturnSuccess)
 //    }
@@ -89,13 +88,13 @@ class SMCKitTests: XCTestCase {
 //        XCTAssertGreaterThanOrEqual(smc.getNumFans().numFans, UInt(1))
 //        XCTAssertEqual(smc.close(), kIOReturnSuccess)
 //    }
-    
+
     func testTemperatureValues() {
         let temperatureSensors = try! SMCKit.allKnownTemperatureSensors()
-        
+
         for sensor in temperatureSensors {
             let temperature = try! SMCKit.temperature(sensor.code)
-            
+
             XCTAssertGreaterThan(temperature, -128.0)
             XCTAssertLessThan(temperature, 128.0)
         }
@@ -118,7 +117,7 @@ class SMCKitTests: XCTestCase {
         // but we'll give it some slack incase
         XCTAssertLessThanOrEqual(fanCount, 4)
     }
-    
+
     func testisKeyFound() {
         XCTAssertFalse(try! SMCKit.isKeyFound(FourCharCode(fromString: "CERN")))
         XCTAssertFalse(try! SMCKit.isKeyFound(FourCharCode(fromString: "NASA")))
@@ -156,7 +155,7 @@ class SMCKitTests: XCTestCase {
             return
         }
 
-        
+
         // To get the ODD object, need to reg for notification and wait. Since,
         // were looking for an internel device, should be instant.
         // See deviceAppeared() helper.
@@ -166,15 +165,15 @@ class SMCKitTests: XCTestCase {
             name: NSNotification.Name.DRDeviceAppeared.rawValue,
             object: nil
         )
-        
+
         // TODO: sleep here just incase for notification to be sent?
 
-        
+
         // TODO: Ignoring the Mac Pro case for now, with 2 drives
         if internalODD.count == 1 {
             let ODDStatus =
                 internalODD[0].status()[DRDeviceMediaStateKey] as! String
-            
+
             switch ODDStatus {
             case DRDeviceMediaStateMediaPresent:
                 XCTAssertTrue(ODDStatusSMC)
@@ -189,19 +188,19 @@ class SMCKitTests: XCTestCase {
                 break
             }
         }
-        
+
         DRNotificationCenter.currentRunLoop().removeObserver(
             self,
             name: NSNotification.Name.DRDeviceAppeared.rawValue,
             object: nil
         )
     }
-    
+
     func testBatteryPowerMethods() {
-        var isLaptop    = false
+        var isLaptop = false
         var ASPCharging = false
-        var ASPCharged  = false
-        
+        var ASPCharged = false
+
         // Check if machine is a laptop - if it is, we use the service to cross
         // check our values
         // TODO: Simplify I/O Kit calls here - can do it in a single call
@@ -210,38 +209,38 @@ class SMCKitTests: XCTestCase {
                       IOServiceNameMatching("AppleSmartBattery"))
         if service != 0 {
             isLaptop = true
-            
+
             // Getting these values to cross ref
             var prop = IORegistryEntryCreateCFProperty(
                 service, "IsCharging" as CFString!,
                 kCFAllocatorDefault,
                 0
             )
-            
+
             ASPCharging = prop?.takeUnretainedValue() as! Bool
-            
+
             prop = IORegistryEntryCreateCFProperty(
                 service, "FullyCharged" as CFString!,
                 kCFAllocatorDefault,
                 0
             )
-            
+
             ASPCharged = prop?.takeUnretainedValue() as! Bool
         }
-        
+
         let info = try! SMCKit.batteryInformation()
 
 
         let batteryPowered = info.isBatteryPowered
-        let batteryOk      = info.isBatteryOk
-        let ACPresent      = info.isACPresent
-        let charging       = info.isCharging
-        let numBatteries   = info.batteryCount
+        let batteryOk = info.isBatteryOk
+        let ACPresent = info.isACPresent
+        let charging = info.isCharging
+        let numBatteries = info.batteryCount
 
         if isLaptop {
             // TODO: Is there any Mac that supports more then 1?
             XCTAssertEqual(numBatteries, 1)
-            
+
             /*
             Yeah, truth tables!... :)
             
@@ -267,23 +266,22 @@ class SMCKitTests: XCTestCase {
             let D = ASPCharged
 
             XCTAssertTrue((!A || !B) && (A || B) && (B || !C) && (!C || !D))
-        }
-        else {
+        } else {
             XCTAssertFalse(batteryOk)
             XCTAssertFalse(batteryPowered)
             XCTAssertFalse(charging)
             XCTAssertTrue(ACPresent)
             XCTAssertEqual(numBatteries, 0)
         }
-        
-        
+
+
         // TODO: Make sure this is called, even if tests above fail
         IOObjectRelease(service)
     }
 
     func testFourCharCodeExtension() {
-        let data: [(FourCharCode, String)] = [(1177567587, "F0Ac"),
-                                              (1413689414, "TC0F")]
+        let data: [(FourCharCode, String)] = [(1_177_567_587, "F0Ac"),
+                                              (1_413_689_414, "TC0F")]
 
         for (encoded, decoded) in data {
             XCTAssertEqual(encoded, FourCharCode(fromString: decoded))
@@ -292,7 +290,7 @@ class SMCKitTests: XCTestCase {
     }
 
     func testIntExtension() {
-        let data: [(FPE2, Int)] = [((31, 64),  2000), ((56, 244), 3645),
+        let data: [(FPE2, Int)] = [((31, 64), 2000), ((56, 244), 3645),
                                    ((96, 220), 6199)]
 
         for (encoded, decoded) in data {
@@ -312,13 +310,13 @@ class SMCKitTests: XCTestCase {
     ///
     /// NOTE: Must not be private ACL, otherwise selector can't be reached
     func deviceAppeared(_ aNotification: Notification) {
-        let newDevice  = aNotification.object as! DRDevice
+        let newDevice = aNotification.object as! DRDevice
         let deviceInfo = newDevice.info()
-        
+
         let supportLevel = deviceInfo?[DRDeviceSupportLevelKey] as! String
         let interconnect =
             deviceInfo?[DRDevicePhysicalInterconnectLocationKey] as! String
-        
+
         if interconnect == DRDevicePhysicalInterconnectLocationInternal &&
            supportLevel == DRDeviceSupportLevelAppleShipping {
             // The supposition here is that the SMC will only know about
@@ -339,7 +337,7 @@ class SMCKitTests: XCTestCase {
         // via I/O Kit which can also get the model name
         var size = MemoryLayout<io_name_t>.size
 
-        let ptr    = UnsafeMutablePointer<io_name_t>.allocate(capacity: 1)
+        let ptr = UnsafeMutablePointer<io_name_t>.allocate(capacity: 1)
         let result = sysctl(&mib, u_int(mib.count), ptr, &size, nil, 0)
 
         if result == 0 {
