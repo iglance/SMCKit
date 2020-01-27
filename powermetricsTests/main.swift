@@ -36,7 +36,6 @@
 
 import Foundation
 
-
 // powermetrics added the SMC sampler in 10.10
 let processInfo = ProcessInfo()
 let Yosemite = OperatingSystemVersion(majorVersion: 10,
@@ -48,7 +47,6 @@ if !processInfo.isOperatingSystemAtLeast(Yosemite) {
     exit(EX_USAGE)
 }
 
-
 // Setup SMC
 do {
     try SMCKit.open()
@@ -56,7 +54,6 @@ do {
     print(error)
     exit(EX_UNAVAILABLE)
 }
-
 
 // Setup command to run powermetrics
 let powermetrics = Process()
@@ -75,7 +72,6 @@ powermetrics.standardOutput = pipe
 powermetrics.launch()
 let data = pipe.fileHandleForReading.readDataToEndOfFile()
 
-
 // Get SMC data right after powermetrics has run. This is because it first
 // prints out some general information about the machine, and then seems to
 // sleep for 1 second to "line up" its sampling window
@@ -86,7 +82,6 @@ let smcRPM = try! SMCKit.fanCurrentSpeed(0)
 // https://gist.github.com/beltex/acbbeef815a7be938abf
 let smcCPUDieTemperature =
     try! SMCKit.temperature(TemperatureSensors.CPU_0_DIE.code)
-
 
 // Parse the output from powermetrics
 // TODO: Unknown format of various cases - multiple fans, no fans, 2 CPUs

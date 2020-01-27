@@ -146,7 +146,6 @@ class SMCKitTests: XCTestCase {
             fatalError()
         }
 
-
         if DRDevice.devices()?.isEmpty {
             // TODO: This means that there are no ODD that have burn capability?
             //       Should be fine, as all Apple drives should have it
@@ -154,7 +153,6 @@ class SMCKitTests: XCTestCase {
             XCTAssertTrue(ODDStatusSMC == false)
             return
         }
-
 
         // To get the ODD object, need to reg for notification and wait. Since,
         // were looking for an internel device, should be instant.
@@ -167,7 +165,6 @@ class SMCKitTests: XCTestCase {
         )
 
         // TODO: sleep here just incase for notification to be sent?
-
 
         // TODO: Ignoring the Mac Pro case for now, with 2 drives
         if internalODD.count == 1 {
@@ -230,7 +227,6 @@ class SMCKitTests: XCTestCase {
 
         let info = try! SMCKit.batteryInformation()
 
-
         let batteryPowered = info.isBatteryPowered
         let batteryOk = info.isBatteryOk
         let ACPresent = info.isACPresent
@@ -274,7 +270,6 @@ class SMCKitTests: XCTestCase {
             XCTAssertEqual(numBatteries, 0)
         }
 
-
         // TODO: Make sure this is called, even if tests above fail
         IOObjectRelease(service)
     }
@@ -301,7 +296,6 @@ class SMCKitTests: XCTestCase {
         }
     }
 
-
     //--------------------------------------------------------------------------
     // MARK: Helpers
     //--------------------------------------------------------------------------
@@ -325,7 +319,6 @@ class SMCKitTests: XCTestCase {
             internalODD.append(newDevice)
         }
     }
-
 
     /// Get the model name of this machine. Same as "sysctl hw.model". Via
     /// SystemKit
