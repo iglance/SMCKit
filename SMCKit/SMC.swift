@@ -561,6 +561,7 @@ public struct TemperatureSensors {
                              CPU_0_DIODE.code: CPU_0_DIODE,
                              CPU_0_HEATSINK.code: CPU_0_HEATSINK,
                              CPU_0_PROXIMITY.code: CPU_0_PROXIMITY,
+                             CPU_PECI.code: CPU_PECI,
                              ENCLOSURE_BASE_0.code: ENCLOSURE_BASE_0,
                              ENCLOSURE_BASE_1.code: ENCLOSURE_BASE_1,
                              ENCLOSURE_BASE_2.code: ENCLOSURE_BASE_2,
@@ -591,10 +592,45 @@ public struct TemperatureSensor {
     public let code: FourCharCode
 }
 
-public enum TemperatureUnit {
-    case celius
+public enum TemperatureUnit: Codable {
+    case celsius
     case fahrenheit
     case kelvin
+
+    enum Key: CodingKey {
+        case rawValue
+    }
+
+    enum CodingError: Error {
+        case unknownValue
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Key.self)
+        let rawValue = try container.decode(Int.self, forKey: .rawValue)
+        switch rawValue {
+        case 0:
+            self = .celsius
+        case 1:
+            self = .fahrenheit
+        case 2:
+            self = .kelvin
+        default:
+            throw CodingError.unknownValue
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: Key.self)
+        switch self {
+        case .celsius:
+            try container.encode(0, forKey: .rawValue)
+        case .fahrenheit:
+            try container.encode(1, forKey: .rawValue)
+        case .kelvin:
+            try container.encode(2, forKey: .rawValue)
+        }
+    }
 
     public static func toFahrenheit(_ celius: Double) -> Double {
         // https://en.wikipedia.org/wiki/Fahrenheit#Definition_and_conversions
@@ -638,13 +674,13 @@ extension SMCKit {
      *      - SMCError.unknown
      */
     public static func temperature(_ sensorCode: FourCharCode,
-                             unit: TemperatureUnit = .celius) throws -> Double {
+                             unit: TemperatureUnit = .celsius) throws -> Double {
         let data = try readData(SMCKey(code: sensorCode, info: DataTypes.SP78))
 
         let temperatureInCelius = Double(fromSP78: (data.0, data.1))
 
         switch unit {
-        case .celius:
+        case .celsius:
             return temperatureInCelius
         case .fahrenheit:
             return TemperatureUnit.toFahrenheit(temperatureInCelius)
