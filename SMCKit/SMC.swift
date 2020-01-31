@@ -360,7 +360,14 @@ public struct SMCKit {
         return outputStruct.key
     }
 
-    /// Read data of a key
+    /**
+     * Read data of a key
+     *
+     * - Throws:
+     *      - SMCError.keyNotFound
+     *      - SMCError.notPrivileged
+     *      - SMCError.unknown
+     */
     public static func readData(_ key: SMCKey) throws -> SMCBytes {
         var inputStruct = SMCParamStruct()
 
@@ -385,7 +392,14 @@ public struct SMCKit {
         _ = try callDriver(&inputStruct)
     }
 
-    /// Make an actual call to the SMC driver
+    /**
+     * Make an actual call to the SMC driver
+     *
+     * - Throws:
+     *      - SMCError.keyNotFound
+     *      - SMCError.notPrivileged
+     *      - SMCError.unknown
+     */
     public static func callDriver(_ inputStruct: inout SMCParamStruct,
                         selector: SMCParamStruct.Selector = .kSMCHandleYPCEvent)
                                                       throws -> SMCParamStruct {
@@ -484,6 +498,7 @@ public struct TemperatureSensors {
     public static let CPU_0_PROXIMITY =
                                       TemperatureSensor(name: "CPU_0_PROXIMITY",
                                    code: FourCharCode(fromStaticString: "TC0P"))
+    public static let CPU_PECI = TemperatureSensor(name: "CPU_PECI", code: FourCharCode(fromStaticString: "TCXC"))
     public static let ENCLOSURE_BASE_0 =
                                      TemperatureSensor(name: "ENCLOSURE_BASE_0",
                                    code: FourCharCode(fromStaticString: "TB0T"))
@@ -614,7 +629,14 @@ extension SMCKit {
                    .map { TemperatureSensor(name: "Unknown", code: $0.code) }
     }
 
-    /// Get current temperature of a sensor
+    /**
+     * Get current temperature of a sensor
+     *
+     * - Throws:
+     *      - SMCError.keyNotFound
+     *      - SMCError.notPrivileged
+     *      - SMCError.unknown
+     */
     public static func temperature(_ sensorCode: FourCharCode,
                              unit: TemperatureUnit = .celius) throws -> Double {
         let data = try readData(SMCKey(code: sensorCode, info: DataTypes.SP78))
