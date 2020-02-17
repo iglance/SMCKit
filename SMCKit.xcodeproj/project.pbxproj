@@ -29,7 +29,6 @@
 /* Begin PBXFileReference section */
 		4CA0911F1F8C4FCC00623AEF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4CA091211F8C517E00623AEF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		4CDDA69F1AEC0D010037CE7B /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		4CE5668B1A00A48800787F6B /* SMCKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SMCKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CE5668F1A00A48800787F6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CE566901A00A48800787F6B /* SMCKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMCKit.h; sourceTree = "<group>"; };
@@ -62,14 +61,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4CDDA69E1AEC0D010037CE7B /* powermetricsTests */ = {
-			isa = PBXGroup;
-			children = (
-				4CDDA69F1AEC0D010037CE7B /* main.swift */,
-			);
-			path = powermetricsTests;
-			sourceTree = "<group>";
-		};
 		4CE566811A00A48800787F6B = {
 			isa = PBXGroup;
 			children = (
@@ -77,7 +68,6 @@
 				4CA091211F8C517E00623AEF /* LICENSE */,
 				4CE5668D1A00A48800787F6B /* SMCKit */,
 				4CE5669A1A00A48800787F6B /* SMCKitTests */,
-				4CDDA69E1AEC0D010037CE7B /* powermetricsTests */,
 				4CE5668C1A00A48800787F6B /* Products */,
 				FBA67ADA640B2753AA129E85 /* Pods */,
 				EB397E1ABF8C99C8B068DC6D /* Frameworks */,
