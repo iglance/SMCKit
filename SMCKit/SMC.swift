@@ -721,8 +721,14 @@ extension SMCKit {
         return Fan(id: id, name: name, minSpeed: minSpeed, maxSpeed: maxSpeed)
     }
 
-    /// Number of fans this machine has. All Intel based Macs, except for the
-    /// 2015 MacBook (8,1), have at least 1
+    /**
+     * Number of fans this machine has. All Intel based Macs, except for the 2015 MacBook (8,1), have at least 1
+     *
+     * - Throws:
+     *      - SMCError.keyNotFound
+     *      - SMCError.notPrivileged
+     *      - SMCError.unknown
+     */
     public static func fanCount() throws -> Int {
         let key = SMCKey(code: FourCharCode(fromStaticString: "FNum"),
                                             info: DataTypes.UInt8)
