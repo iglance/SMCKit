@@ -780,6 +780,16 @@ extension SMCKit {
         }
     }
 
+    /**
+     * Returns the minimum fan speed of the fan with the given id.
+     *
+     * - Parameter id: The id of the fan.
+     *
+     * - Throws:
+     *      - SMCError.keyNotFound
+     *      - SMCError.notPrivileged
+     *      - SMCError.unknown
+     */
     public static func fanMinSpeed(_ id: Int) throws -> Int {
         var data: SMCBytes
         do {
@@ -799,6 +809,16 @@ extension SMCKit {
         }
     }
 
+    /**
+    * Returns the maximum fan speed of the fan with the given id.
+    *
+    * - Parameter id: The id of the fan.
+    *
+    * - Throws:
+    *      - SMCError.keyNotFound
+    *      - SMCError.notPrivileged
+    *      - SMCError.unknown
+    */
     public static func fanMaxSpeed(_ id: Int) throws -> Int {
         var data: SMCBytes
 
