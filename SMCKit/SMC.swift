@@ -592,7 +592,7 @@ public struct TemperatureSensor {
     public let code: FourCharCode
 }
 
-public enum TemperatureUnit: Codable {
+public enum TemperatureUnit: String, Codable {
     case celsius
     case fahrenheit
     case kelvin
